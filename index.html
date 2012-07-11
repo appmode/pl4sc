@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Playlists 4 SoundCloud</title>
+		<link rel="stylesheet" type="text/css" href="pl.css" />
+		<script src="http://connect.soundcloud.com/sdk.js"></script>
+		<script type="text/javascript" src="pl.js"></script>
+		<script type="text/javascript" src="pl.conf.js"></script>
+		<script type="text/javascript" src="pl.i18n.js"></script>
+	</head>
+	<body>
+		<div id="view" class="edit">
+			
+			<!-- SEARCH -->
+			<div class="frame search">
+				<div class="header">
+					<p>Find Tracks</p>
+					<div class="btn btnLeft btnCloud"    onclick="PL.openSoundCloud()" title="open SoundCloud"></div>
+				</div>
+				<div class="content">
+					<div class="input">
+						<input id="search" onkeyup="PL.onSearchKeyup(event)">
+						<p>search</p>
+						<div class="searchButton"        onclick="PL.search()"         title="search"></div>
+					</div>
+					<ul id="searchResults" onclick="PL.stopPreview();PL.onSelectTrack(event, 'search')"></ul>
+					<p class="heading">tracks from SoundCloud bookmarklet</p>
+					<ul id="crate" onclick="PL.stopPreview();PL.onSelectTrack(event, 'search')"></ul>
+				</div>
+				<div class="footer">
+					<div class="btn btnLeft btnPreview"  onclick="PL.startPreview()"   title="preview track"></div>
+					<div class="btn btnCenter btnClear"  onclick="PL.clearSearch()"    title="clear tracks"></div>
+					<div class="btn btnRight btnAdd"     onclick="PL.addTrack()"       title="add track to playlist"></div>
+				</div>
+			</div>
+			
+			<!-- TRACKS -->
+			<div class="frame tracks">
+				<div class="header">
+					<p>Edit Playlist</p>
+					<div class="btn btnLeft btnSearch"   onclick="PL.showSearch()"     title="find tracks"></div>
+					<div class="btn btnRight btnEdit"    onclick="PL.showEditor()"     title="edit playlists"></div>
+				</div>
+				<div class="content">
+					<div class="input">
+						<input id="playlistTitle" onblur="PL.updatePlaylistData()"  onkeyup="PL.onTitleKeyup(event)">
+						<p>title</p>
+					</div>
+					<div class="textarea">
+						<textarea id="playlistDescription" onblur="PL.updatePlaylistData()"></textarea>
+						<p>description</p>
+					</div>
+					<div id="tracks" onclick="PL.onSelectTrack(event, 'track')"></div>
+				</div>
+				<div class="footer">
+					<div class="btn btnLeft btnUndo"     onclick="PL.undo()"           title="undo"></div>
+					<div class="btn btnLeft btnRedo"     onclick="PL.redo()"           title="redo"></div>
+					<div class="btn btnCenter btnRemove" onclick="PL.deleteTrack()"    title="remove track"></div>
+					<div class="btn btnRight btnUp"      onclick="PL.trackUp()"        title="move track up"></div>
+					<div class="btn btnRight btnDown"    onclick="PL.trackDown()"      title="move track down"></div>
+				</div>
+			</div>
+			
+			<!-- PLAYLISTS -->
+			<div class="frame playlists">
+				<div class="header">
+					<p>Playlists</p>
+					<div class="btn btnLeft btnEdit"     onclick="PL.showEditor()"     title="edit playlists"></div>
+					<div class="btn btnRight btnPlay"    onclick="PL.showPlayer()"     title="player"></div>
+				</div>
+				<div class="content">
+					<ul id="playlists" onclick="PL.onSelectPlaylist(event)"></ul>
+				</div>
+				<div class="footer">
+					<div class="btn btnRight btnSave"    onclick="PL.save()"           title="save all playlists"></div>
+					<div class="btn btnCenter btnTrash"  onclick="PL.deletePlaylist()" title="delete playlist"></div>
+					<div class="btn btnLeft btnNew"      onclick="PL.addPlaylist()"    title="new playlist"></div>
+				</div>
+			</div>
+			
+			<!-- PLAYER -->
+			<div class="frame player">
+				<div class="header">
+					<p>Player</p>
+				</div>
+				<div class="content">
+					<h1 id="playerTitle"></h1>
+					<h2 id="playerTrack"></h2>
+					<div id="play" class="play" onclick="PL.play()"></div>
+				</div>
+				<div class="footer">
+					<p>
+						Playlists 4 SoundCloud<br>
+						&copy; Copyright 2012 Flame Herbohn<br>
+						Icons from <a href="http://www.glyphicons.com/">glyphicons.com</a>
+						used under the <a href="http://creativecommons.org/licenses/by/3.0/deed.en">CC-BY license</a>.
+					</p>
+					<div class="btn btnLeft btnEject"    onclick="PL.eject()"          title="eject playlist"></div>
+				</div>
+			</div>
+			
+		</div>
+		<script type="text/javascript">
+			<!--
+			PL.init();
+			//-->
+		</script>
+	</body>
+</html>
