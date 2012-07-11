@@ -57,11 +57,11 @@ PL.conf         = {};
  */
 PL.getElementById = function(strElement)
 {
-	if (!this.objElement[strElement])
-	{
-		this.objElement[strElement] = document.getElementById(strElement);
-	}
-	return this.objElement[strElement];
+    if (!this.objElement[strElement])
+    {
+        this.objElement[strElement] = document.getElementById(strElement);
+    }
+    return this.objElement[strElement];
 }
 
 //------------------------------------------------------------------------//
@@ -103,8 +103,8 @@ PL.setInnerText = function(elmTarget, strValue)
  */
 PL.getEventTarget = function(objEvent)
 {
-	objEvent = objEvent || window.event;
-	return objEvent.target || objEvent.srcElement;
+    objEvent = objEvent || window.event;
+    return objEvent.target || objEvent.srcElement;
 }
 
 //------------------------------------------------------------------------//
@@ -121,8 +121,8 @@ PL.getEventTarget = function(objEvent)
  */
 PL.getEventKeyCode = function(objEvent)
 {
-	objEvent = objEvent || window.event;
-	return objEvent.keyCode || objEvent.which;
+    objEvent = objEvent || window.event;
+    return objEvent.keyCode || objEvent.which;
 }
 
 //------------------------------------------------------------------------//
@@ -142,14 +142,14 @@ PL.getEventKeyCode = function(objEvent)
  * @return void
  */
 PL.select = function(elmTarget, strType)
-{	
-	this.deselect(strType);
-	
-	if (elmTarget.tagName == 'LI')
-	{
-		this.objSelect[strType] = elmTarget;
-		elmTarget.className     = "selected";
-	}
+{   
+    this.deselect(strType);
+    
+    if (elmTarget.tagName == 'LI')
+    {
+        this.objSelect[strType] = elmTarget;
+        elmTarget.className     = "selected";
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -166,11 +166,11 @@ PL.select = function(elmTarget, strType)
  */
 PL.deselect = function(strSelect)
 {
-	if (strSelect in this.objSelect)
-	{
-		this.objSelect[strSelect].className = "";
-		delete(this.objSelect[strSelect]);
-	}
+    if (strSelect in this.objSelect)
+    {
+        this.objSelect[strSelect].className = "";
+        delete(this.objSelect[strSelect]);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -188,7 +188,7 @@ PL.deselect = function(strSelect)
  */
 PL.getSelected = function(strSelect)
 {
-	return this.objSelect[strSelect];
+    return this.objSelect[strSelect];
 }
 
 
@@ -210,15 +210,15 @@ PL.getSelected = function(strSelect)
  */
 PL.init = function()
 {
-	SC.initialize({
-		client_id: this.conf.soundCloudClientId
-	});
+    SC.initialize({
+        client_id: this.conf.soundCloudClientId
+    });
 
-	// clear inputs
-	this.clearPlaylistInputs();
-	
-	// load playlists
-	this.load();
+    // clear inputs
+    this.clearPlaylistInputs();
+    
+    // load playlists
+    this.load();
 }
 
 //------------------------------------------------------------------------//
@@ -235,45 +235,45 @@ PL.init = function()
  */
 PL.save = function()
 {
-	// update data for current playlist
-	this.updatePlaylistData();
-	
-	// convert playlists to JSON safe objects
-	var arrPlaylists = [];
-	var elmTrack;
-	var elmPlaylist  = this.getElementById("playlists").firstChild;
-	while (elmPlaylist)
-	{
-		var objPlaylist = {};
-		
-		// title & description
-		objPlaylist.title		= elmPlaylist.getAttribute("data-title");
-		objPlaylist.description = elmPlaylist.getAttribute("data-description");
-		
-		// track list
-		objPlaylist.tracks		= [];
-		elmTrack = elmPlaylist.elmTracklist.firstChild;
-		while (elmTrack)
-		{
-			// add track
-			objPlaylist.tracks.push(elmTrack.getAttribute("data-id"));
-			
-			// next track
-			elmTrack = elmTrack.nextSibling;
-		}
-		
-		// add playlist to playlists array
-		arrPlaylists.push(objPlaylist);
-		
-		// next playlist
-		elmPlaylist = elmPlaylist.nextSibling;
-	}
-	
-	// save playlists
-	localStorage.setItem('playlists', JSON.stringify(arrPlaylists));
-	
-	// save track cache
-	localStorage.setItem('trackCache', JSON.stringify(this.objTracks));	
+    // update data for current playlist
+    this.updatePlaylistData();
+    
+    // convert playlists to JSON safe objects
+    var arrPlaylists = [];
+    var elmTrack;
+    var elmPlaylist  = this.getElementById("playlists").firstChild;
+    while (elmPlaylist)
+    {
+        var objPlaylist = {};
+        
+        // title & description
+        objPlaylist.title       = elmPlaylist.getAttribute("data-title");
+        objPlaylist.description = elmPlaylist.getAttribute("data-description");
+        
+        // track list
+        objPlaylist.tracks      = [];
+        elmTrack = elmPlaylist.elmTracklist.firstChild;
+        while (elmTrack)
+        {
+            // add track
+            objPlaylist.tracks.push(elmTrack.getAttribute("data-id"));
+            
+            // next track
+            elmTrack = elmTrack.nextSibling;
+        }
+        
+        // add playlist to playlists array
+        arrPlaylists.push(objPlaylist);
+        
+        // next playlist
+        elmPlaylist = elmPlaylist.nextSibling;
+    }
+    
+    // save playlists
+    localStorage.setItem('playlists', JSON.stringify(arrPlaylists));
+    
+    // save track cache
+    localStorage.setItem('trackCache', JSON.stringify(this.objTracks)); 
 }
 
 //------------------------------------------------------------------------//
@@ -290,74 +290,74 @@ PL.save = function()
  */
 PL.load = function()
 {
-	// load track cache
-	this.objTracks = JSON.parse(localStorage.getItem('trackCache')) || {};
-	
-	// load playlists
-	var arrPlaylists = JSON.parse(localStorage.getItem('playlists'));
-	
-	// display playlists
-	if (arrPlaylists)
-	{
-		var i = 0;
-		var objPlaylist;
-		for( ; objPlaylist = arrPlaylists[i++] ; )
-		{
-			// playlist
-			var elmPlaylist           = document.createElement("li");
-			elmPlaylist.innerHTML     = objPlaylist.title || this.i18n.unnamedPlaylist;
-			elmPlaylist.elmTracklist  = document.createElement("ul");
-			elmPlaylist.setAttribute("data-title",       objPlaylist.title);
-			elmPlaylist.setAttribute("data-description", objPlaylist.description);
-			elmPlaylist.setAttribute("title",            objPlaylist.description);
-			elmPlaylist.arrUndo = [];
-			elmPlaylist.arrRedo = [];
-			
-			// tracks
-			var n = 0;
-			var strTrack;
-			for( ; strTrack = objPlaylist.tracks[n++] ; )
-			{
-				var elmTrack = document.createElement("li");
-				this.setInnerText(elmTrack, this.objTracks[strTrack].title);
-				elmTrack.setAttribute("data-id", strTrack);
-				elmPlaylist.elmTracklist.appendChild(elmTrack);
-			}
-			
-			// append to playlist list
-			this.getElementById("playlists").appendChild(elmPlaylist);
-		}
-	}
-	
-	// load crate
-	var arrCrate = JSON.parse(localStorage.getItem('trackCrate'));
-	
-	// display tracks in crate
-	if (arrCrate)
-	{
-		var elmCrate = this.getElementById('crate');
-		
-		var i = 0;
-		var strTrack;
-		for( ; strTrack = arrCrate[i++] ; )
-		{
-			var elmTemp = document.createElement('li');	
-			elmTemp.setAttribute('data-id', strTrack);
-			elmCrate.appendChild(elmTemp);
-			if (strTrack in this.objTracks)
-			{
-				// set track name from cache
-				this.setInnerText(elmTemp, this.objTracks[strTrack].title);
-			}
-			else
-			{
-				// hide track
-				elmTemp.style.display = "none";
-				// get track name from SoundCloud
-				SC.get("/tracks/" + strTrack, {}, this.callback_crateResult);
-			}
-		}
-	}
+    // load track cache
+    this.objTracks = JSON.parse(localStorage.getItem('trackCache')) || {};
+    
+    // load playlists
+    var arrPlaylists = JSON.parse(localStorage.getItem('playlists'));
+    
+    // display playlists
+    if (arrPlaylists)
+    {
+        var i = 0;
+        var objPlaylist;
+        for( ; objPlaylist = arrPlaylists[i++] ; )
+        {
+            // playlist
+            var elmPlaylist           = document.createElement("li");
+            elmPlaylist.innerHTML     = objPlaylist.title || this.i18n.unnamedPlaylist;
+            elmPlaylist.elmTracklist  = document.createElement("ul");
+            elmPlaylist.setAttribute("data-title",       objPlaylist.title);
+            elmPlaylist.setAttribute("data-description", objPlaylist.description);
+            elmPlaylist.setAttribute("title",            objPlaylist.description);
+            elmPlaylist.arrUndo = [];
+            elmPlaylist.arrRedo = [];
+            
+            // tracks
+            var n = 0;
+            var strTrack;
+            for( ; strTrack = objPlaylist.tracks[n++] ; )
+            {
+                var elmTrack = document.createElement("li");
+                this.setInnerText(elmTrack, this.objTracks[strTrack].title);
+                elmTrack.setAttribute("data-id", strTrack);
+                elmPlaylist.elmTracklist.appendChild(elmTrack);
+            }
+            
+            // append to playlist list
+            this.getElementById("playlists").appendChild(elmPlaylist);
+        }
+    }
+    
+    // load crate
+    var arrCrate = JSON.parse(localStorage.getItem('trackCrate'));
+    
+    // display tracks in crate
+    if (arrCrate)
+    {
+        var elmCrate = this.getElementById('crate');
+        
+        var i = 0;
+        var strTrack;
+        for( ; strTrack = arrCrate[i++] ; )
+        {
+            var elmTemp = document.createElement('li'); 
+            elmTemp.setAttribute('data-id', strTrack);
+            elmCrate.appendChild(elmTemp);
+            if (strTrack in this.objTracks)
+            {
+                // set track name from cache
+                this.setInnerText(elmTemp, this.objTracks[strTrack].title);
+            }
+            else
+            {
+                // hide track
+                elmTemp.style.display = "none";
+                // get track name from SoundCloud
+                SC.get("/tracks/" + strTrack, {}, this.callback_crateResult);
+            }
+        }
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -378,23 +378,23 @@ PL.load = function()
  */
 PL.callback_crateResult = function(objTrack)
 {
-	if ('kind' in objTrack && objTrack.kind == "track")
-	{
-		// cache track
-		PL.cacheTrack(objTrack.id, objTrack.title);
-		
-		// update tracks in crate
-		var elmTrack = PL.getElementById('crate').firstChild;
-		while (elmTrack)
-		{
-			if (elmTrack.getAttribute("data-id") == objTrack.id)
-			{
-				PL.setInnerText(elmTrack, objTrack.title);
-				elmTrack.style.display = "";
-			}
-			elmTrack = elmTrack.nextSibling;
-		}
-	}
+    if ('kind' in objTrack && objTrack.kind == "track")
+    {
+        // cache track
+        PL.cacheTrack(objTrack.id, objTrack.title);
+        
+        // update tracks in crate
+        var elmTrack = PL.getElementById('crate').firstChild;
+        while (elmTrack)
+        {
+            if (elmTrack.getAttribute("data-id") == objTrack.id)
+            {
+                PL.setInnerText(elmTrack, objTrack.title);
+                elmTrack.style.display = "";
+            }
+            elmTrack = elmTrack.nextSibling;
+        }
+    }
 }
 
 
@@ -414,7 +414,7 @@ PL.callback_crateResult = function(objTrack)
  */
 PL.showEditor = function()
 {
-	this.getElementById("view").className = "edit";
+    this.getElementById("view").className = "edit";
 }
 
 //------------------------------------------------------------------------//
@@ -429,7 +429,7 @@ PL.showEditor = function()
  */
 PL.showPlayer = function()
 {
-	this.getElementById("view").className = "play";
+    this.getElementById("view").className = "play";
 }
 
 //------------------------------------------------------------------------//
@@ -444,8 +444,8 @@ PL.showPlayer = function()
  */
 PL.showSearch = function()
 {
-	this.getElementById("view").className = "search";
-	this.getElementById("search").focus();
+    this.getElementById("view").className = "search";
+    this.getElementById("search").focus();
 }
 
 
@@ -467,13 +467,13 @@ PL.showSearch = function()
  */
 PL.search = function()
 {
-	this.deselect("search");
-	this.getElementById("searchResults").innerHTML = "";
-	var strSearch = this.getElementById("search").value;
-	if (strSearch)
-	{
-		SC.get("/tracks", {"q":strSearch}, this.callback_searchResult);
-	}
+    this.deselect("search");
+    this.getElementById("searchResults").innerHTML = "";
+    var strSearch = this.getElementById("search").value;
+    if (strSearch)
+    {
+        SC.get("/tracks", {"q":strSearch}, this.callback_searchResult);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -494,7 +494,7 @@ PL.search = function()
  */
 PL.callback_searchResult = function(objTracks)
 {
-	PL.displaySearchResults(objTracks);
+    PL.displaySearchResults(objTracks);
 }
 
 //------------------------------------------------------------------------//
@@ -513,14 +513,14 @@ PL.callback_searchResult = function(objTracks)
  */
 PL.displaySearchResults = function(objTracks)
 {
-	var elmResults = PL.getElementById("searchResults");
-	for (var n in objTracks)
-	{
-		var elmTemp = document.createElement('li');
-		this.setInnerText(elmTemp, objTracks[n].title);
-		elmTemp.setAttribute('data-id', objTracks[n].id);
-		elmResults.appendChild(elmTemp);
-	}
+    var elmResults = PL.getElementById("searchResults");
+    for (var n in objTracks)
+    {
+        var elmTemp = document.createElement('li');
+        this.setInnerText(elmTemp, objTracks[n].title);
+        elmTemp.setAttribute('data-id', objTracks[n].id);
+        elmResults.appendChild(elmTemp);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -535,10 +535,10 @@ PL.displaySearchResults = function(objTracks)
  */
 PL.clearSearch = function()
 {
-	this.deselect("search");
-	this.getElementById("searchResults").innerHTML = "";
-	this.getElementById("search").value            = "";
-	this.getElementById("search").focus();
+    this.deselect("search");
+    this.getElementById("searchResults").innerHTML = "";
+    this.getElementById("search").value            = "";
+    this.getElementById("search").focus();
 }
 
 //------------------------------------------------------------------------//
@@ -553,7 +553,7 @@ PL.clearSearch = function()
  */
 PL.openSoundCloud = function()
 {
-	window.open("http://soundcloud.com/search");
+    window.open("http://soundcloud.com/search");
 }
 
 //------------------------------------------------------------------------//
@@ -570,10 +570,10 @@ PL.openSoundCloud = function()
  */
 PL.onSearchKeyup = function(objEvent)
 {
-	if (this.getEventKeyCode(objEvent) == 13)
-	{
-		this.search();
-	}
+    if (this.getEventKeyCode(objEvent) == 13)
+    {
+        this.search();
+    }
 }
 
 
@@ -593,34 +593,34 @@ PL.onSearchKeyup = function(objEvent)
  */
 PL.addTrack = function()
 {
-	var elmSearch   = this.getSelected("search");
-	var elmEdit     = this.getSelected("edit");
-	var elmHead     = this.getSelected("track");
-	if (elmSearch && elmEdit)
-	{
-		// cache track
-		this.cacheTrack(elmSearch.getAttribute('data-id'), elmSearch.innerHTML);
-		
-		// add track
-		var elmTrack = elmSearch.cloneNode(true);
-		if (elmHead)
-		{
-			// add to undo stack
-			this.do(["add", "remove", elmTrack, elmHead.nextSibling]);
-			// insert after current selected track
-			elmEdit.elmTracklist.insertBefore(elmTrack, elmHead.nextSibling);
-		}
-		else
-		{
-			// add to undo stack
-			this.do(["add", "remove", elmTrack, null]);
-			// insert at end of track list
-			elmEdit.elmTracklist.appendChild(elmTrack);
-		}
-		
-		// select the new track
-		this.select(elmTrack, 'track');
-	}
+    var elmSearch   = this.getSelected("search");
+    var elmEdit     = this.getSelected("edit");
+    var elmHead     = this.getSelected("track");
+    if (elmSearch && elmEdit)
+    {
+        // cache track
+        this.cacheTrack(elmSearch.getAttribute('data-id'), elmSearch.innerHTML);
+        
+        // add track
+        var elmTrack = elmSearch.cloneNode(true);
+        if (elmHead)
+        {
+            // add to undo stack
+            this.do(["add", "remove", elmTrack, elmHead.nextSibling]);
+            // insert after current selected track
+            elmEdit.elmTracklist.insertBefore(elmTrack, elmHead.nextSibling);
+        }
+        else
+        {
+            // add to undo stack
+            this.do(["add", "remove", elmTrack, null]);
+            // insert at end of track list
+            elmEdit.elmTracklist.appendChild(elmTrack);
+        }
+        
+        // select the new track
+        this.select(elmTrack, 'track');
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -635,29 +635,29 @@ PL.addTrack = function()
  */
 PL.deleteTrack = function()
 {
-	// delete current selected track
-	var elmTrack = this.getSelected("track");
-	if (elmTrack)
-	{
-		// deselect track
-		this.deselect("track");
-		
-		// select next track
-		if (elmTrack.nextSibling)
-		{
-			this.select(elmTrack.nextSibling, "track");
-		}
-		else if (elmTrack.previousSibling)
-		{
-			this.select(elmTrack.previousSibling, "track");
-		}
-		
-		// add to undo stack
-		this.do(["remove", "add", elmTrack, elmTrack.nextSibling]);
-		
-		// detatch track
-		elmTrack.parentNode.removeChild(elmTrack);
-	}
+    // delete current selected track
+    var elmTrack = this.getSelected("track");
+    if (elmTrack)
+    {
+        // deselect track
+        this.deselect("track");
+        
+        // select next track
+        if (elmTrack.nextSibling)
+        {
+            this.select(elmTrack.nextSibling, "track");
+        }
+        else if (elmTrack.previousSibling)
+        {
+            this.select(elmTrack.previousSibling, "track");
+        }
+        
+        // add to undo stack
+        this.do(["remove", "add", elmTrack, elmTrack.nextSibling]);
+        
+        // detatch track
+        elmTrack.parentNode.removeChild(elmTrack);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -672,19 +672,19 @@ PL.deleteTrack = function()
  */
 PL.trackUp = function()
 {
-	var elmTrack = this.getSelected("track");
-	if (elmTrack)
-	{
-		var elmTrack    = this.objSelect.track;
-		var elmPrevious = elmTrack.previousSibling;
-		if (elmPrevious)
-		{
-			// add to undo stack
-			this.do(["up", "down", elmTrack]);
-		
-			elmTrack.parentNode.insertBefore(elmTrack, elmPrevious);
-		}
-	}
+    var elmTrack = this.getSelected("track");
+    if (elmTrack)
+    {
+        var elmTrack    = this.objSelect.track;
+        var elmPrevious = elmTrack.previousSibling;
+        if (elmPrevious)
+        {
+            // add to undo stack
+            this.do(["up", "down", elmTrack]);
+        
+            elmTrack.parentNode.insertBefore(elmTrack, elmPrevious);
+        }
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -699,18 +699,18 @@ PL.trackUp = function()
  */
 PL.trackDown = function()
 {
-	var elmTrack = this.getSelected("track");
-	if (elmTrack)
-	{
-		var elmNext = elmTrack.nextSibling;
-		if (elmNext)
-		{
-			// add to undo stack
-			this.do(["down", "up", elmTrack]);
-			
-			elmTrack.parentNode.insertBefore(elmTrack, elmNext.nextSibling);
-		}
-	}
+    var elmTrack = this.getSelected("track");
+    if (elmTrack)
+    {
+        var elmNext = elmTrack.nextSibling;
+        if (elmNext)
+        {
+            // add to undo stack
+            this.do(["down", "up", elmTrack]);
+            
+            elmTrack.parentNode.insertBefore(elmTrack, elmNext.nextSibling);
+        }
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -728,7 +728,7 @@ PL.trackDown = function()
  */
 PL.onSelectTrack = function(objEvent, strSelect)
 {
-	this.select(this.getEventTarget(objEvent), strSelect);
+    this.select(this.getEventTarget(objEvent), strSelect);
 }
 
 
@@ -748,27 +748,27 @@ PL.onSelectTrack = function(objEvent, strSelect)
  */
 PL.addPlaylist = function()
 {
-	// show search view
-	this.getElementById("view").className = "search";
-	
-	// create new playlist
-	var elmPlaylist             = document.createElement("li");
-	elmPlaylist.innerHTML       = this.i18n.newPlaylist;
-	elmPlaylist.elmTracklist    = document.createElement("ul");
-	elmPlaylist.setAttribute("data-title",       "");
-	elmPlaylist.setAttribute("data-description", "");
-	elmPlaylist.arrUndo = [];
-	elmPlaylist.arrRedo = [];
-	
-	// append to playlist list
-	this.getElementById("playlists").appendChild(elmPlaylist);
-	
-	// edit the playlist
-	this.editPlaylist(elmPlaylist);
-		
-	// focus the playlist name input
-	this.getElementById("playlistTitle").focus();
-	
+    // show search view
+    this.getElementById("view").className = "search";
+    
+    // create new playlist
+    var elmPlaylist             = document.createElement("li");
+    elmPlaylist.innerHTML       = this.i18n.newPlaylist;
+    elmPlaylist.elmTracklist    = document.createElement("ul");
+    elmPlaylist.setAttribute("data-title",       "");
+    elmPlaylist.setAttribute("data-description", "");
+    elmPlaylist.arrUndo = [];
+    elmPlaylist.arrRedo = [];
+    
+    // append to playlist list
+    this.getElementById("playlists").appendChild(elmPlaylist);
+    
+    // edit the playlist
+    this.editPlaylist(elmPlaylist);
+        
+    // focus the playlist name input
+    this.getElementById("playlistTitle").focus();
+    
 }
 
 //------------------------------------------------------------------------//
@@ -786,38 +786,38 @@ PL.addPlaylist = function()
  */
 PL.editPlaylist = function(elmTarget)
 {
-	// target must be a list item
-	if (elmTarget.tagName != 'LI')
-	{
-		return false;
-	}
-	
-	// deselect current editing playlist
-	var elmEdit = this.getSelected("edit");
-	if (elmEdit)
-	{
-		// update playlist data
-		this.updatePlaylistData();
-		
-		// detatch track list
-		elmEdit.elmTracklist.parentNode.removeChild(elmEdit.elmTracklist);
-		
-		// deselect track
-		this.deselect("track");
-		
-		// deselect playlist
-		this.deselect("edit");
-	}
-	
-	// select new playlist for editing
-	this.select(elmTarget, "edit");
-	
-	// load tracklist, title & description
-	this.getElementById("tracks").appendChild(elmTarget.elmTracklist);
-	this.getElementById("playlistTitle").value       = elmTarget.getAttribute("data-title");
-	this.getElementById("playlistDescription").value = elmTarget.getAttribute("data-description");
-	
-	return true;
+    // target must be a list item
+    if (elmTarget.tagName != 'LI')
+    {
+        return false;
+    }
+    
+    // deselect current editing playlist
+    var elmEdit = this.getSelected("edit");
+    if (elmEdit)
+    {
+        // update playlist data
+        this.updatePlaylistData();
+        
+        // detatch track list
+        elmEdit.elmTracklist.parentNode.removeChild(elmEdit.elmTracklist);
+        
+        // deselect track
+        this.deselect("track");
+        
+        // deselect playlist
+        this.deselect("edit");
+    }
+    
+    // select new playlist for editing
+    this.select(elmTarget, "edit");
+    
+    // load tracklist, title & description
+    this.getElementById("tracks").appendChild(elmTarget.elmTracklist);
+    this.getElementById("playlistTitle").value       = elmTarget.getAttribute("data-title");
+    this.getElementById("playlistDescription").value = elmTarget.getAttribute("data-description");
+    
+    return true;
 }
 
 //------------------------------------------------------------------------//
@@ -832,28 +832,28 @@ PL.editPlaylist = function(elmTarget)
  */
 PL.deletePlaylist = function()
 {
-	// delete current selected playlist
-	var elmEdit = this.getSelected("edit");
-	if (elmEdit)
-	{
-		// deselect playlist
-		this.deselect("edit");
-		
-		// detatch track list
-		elmEdit.elmTracklist.parentNode.removeChild(elmEdit.elmTracklist);
-		
-		// detatch playlist
-		elmEdit.parentNode.removeChild(elmEdit);
-		
-		// remove track list
-		elmEdit.elmTracklist = null;
-		
-		// clear inputs
-		this.clearPlaylistInputs();
-		
-		// save
-		//TODO!!!! autosave?	
-	}
+    // delete current selected playlist
+    var elmEdit = this.getSelected("edit");
+    if (elmEdit)
+    {
+        // deselect playlist
+        this.deselect("edit");
+        
+        // detatch track list
+        elmEdit.elmTracklist.parentNode.removeChild(elmEdit.elmTracklist);
+        
+        // detatch playlist
+        elmEdit.parentNode.removeChild(elmEdit);
+        
+        // remove track list
+        elmEdit.elmTracklist = null;
+        
+        // clear inputs
+        this.clearPlaylistInputs();
+        
+        // save
+        //TODO!!!! autosave?    
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -870,18 +870,18 @@ PL.deletePlaylist = function()
  */
 PL.updatePlaylistData = function()
 {
-	var elmEdit = this.getSelected("edit");
-	if (elmEdit)
-	{
-		// title
-		var strTitle = this.getElementById("playlistTitle").value;
-		this.setInnerText(elmEdit, strTitle || this.i18n.unnamedPlaylist);
-		elmEdit.setAttribute("data-title",       strTitle);
-		// description
-		var strDescription = this.getElementById("playlistDescription").value;
-		elmEdit.setAttribute("data-description", strDescription);
-		elmEdit.setAttribute("title",            strDescription);
-	}
+    var elmEdit = this.getSelected("edit");
+    if (elmEdit)
+    {
+        // title
+        var strTitle = this.getElementById("playlistTitle").value;
+        this.setInnerText(elmEdit, strTitle || this.i18n.unnamedPlaylist);
+        elmEdit.setAttribute("data-title",       strTitle);
+        // description
+        var strDescription = this.getElementById("playlistDescription").value;
+        elmEdit.setAttribute("data-description", strDescription);
+        elmEdit.setAttribute("title",            strDescription);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -896,8 +896,8 @@ PL.updatePlaylistData = function()
  */
 PL.clearPlaylistInputs = function()
 {
-	this.getElementById("playlistTitle").value       = "";
-	this.getElementById("playlistDescription").value = "";
+    this.getElementById("playlistTitle").value       = "";
+    this.getElementById("playlistDescription").value = "";
 }
 
 //------------------------------------------------------------------------//
@@ -923,10 +923,10 @@ PL.clearPlaylistInputs = function()
  */
 PL.cacheTrack = function(strId, strTitle)
 {
-	if (!(strId in this.objTracks))
-	{
-		this.objTracks[strId] = {"id":strId, "title":strTitle};
-	}
+    if (!(strId in this.objTracks))
+    {
+        this.objTracks[strId] = {"id":strId, "title":strTitle};
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -943,7 +943,7 @@ PL.cacheTrack = function(strId, strTitle)
  */
 PL.onSelectPlaylist = function(objEvent)
 {
-	this.editPlaylist(this.getEventTarget(objEvent));
+    this.editPlaylist(this.getEventTarget(objEvent));
 }
 
 //------------------------------------------------------------------------//
@@ -960,10 +960,10 @@ PL.onSelectPlaylist = function(objEvent)
  */
 PL.onTitleKeyup = function(objEvent)
 {
-	if (this.getEventKeyCode(objEvent) == 13)
-	{
-		this.getElementById("playlistDescription").focus();
-	}
+    if (this.getEventKeyCode(objEvent) == 13)
+    {
+        this.getElementById("playlistDescription").focus();
+    }
 }
 
 
@@ -994,33 +994,33 @@ PL.onTitleKeyup = function(objEvent)
  */
 PL.play = function()
 {
-	if (this.elmCurrentPlayList)
-	{
-		if (this.bolPause)
-		{
-			// resume paused track
-			this.resumeTrack();
-		}
-		else
-		{
-			// pause playing track
-			this.pauseTrack();
-		}
-	}
-	else
-	{
-		// start playing selected playlist
-		this.elmCurrentPlayList	= this.getSelected("edit");
-		if (this.elmCurrentPlayList)
-		{
-			// update player display
-			var strTitle = this.elmCurrentPlayList.getAttribute("data-title");
-			this.setInnerText(this.getElementById("playerTitle"), strTitle);
-			
-			// play first track
-			this.playTrack(this.elmCurrentPlayList.elmTracklist.firstChild);
-		}
-	}
+    if (this.elmCurrentPlayList)
+    {
+        if (this.bolPause)
+        {
+            // resume paused track
+            this.resumeTrack();
+        }
+        else
+        {
+            // pause playing track
+            this.pauseTrack();
+        }
+    }
+    else
+    {
+        // start playing selected playlist
+        this.elmCurrentPlayList = this.getSelected("edit");
+        if (this.elmCurrentPlayList)
+        {
+            // update player display
+            var strTitle = this.elmCurrentPlayList.getAttribute("data-title");
+            this.setInnerText(this.getElementById("playerTitle"), strTitle);
+            
+            // play first track
+            this.playTrack(this.elmCurrentPlayList.elmTracklist.firstChild);
+        }
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1037,24 +1037,24 @@ PL.play = function()
  */
 PL.eject = function()
 {
-	// pause current track
-	this.pauseTrack();
-	
-	// destroy current track
-	if (this.currentTrack)
-	{
-		this.currentTrack.destruct();
-	}
-	
-	// remove playlist
-	if (this.elmCurrentPlayList)
-	{
-		this.elmCurrentPlayList = null;
-	}
-	
-	// update player display
-	this.getElementById("playerTitle").innerHTML = "";
-	this.getElementById("playerTrack").innerHTML = "";
+    // pause current track
+    this.pauseTrack();
+    
+    // destroy current track
+    if (this.currentTrack)
+    {
+        this.currentTrack.destruct();
+    }
+    
+    // remove playlist
+    if (this.elmCurrentPlayList)
+    {
+        this.elmCurrentPlayList = null;
+    }
+    
+    // update player display
+    this.getElementById("playerTitle").innerHTML = "";
+    this.getElementById("playerTrack").innerHTML = "";
 }
 
 //------------------------------------------------------------------------//
@@ -1071,7 +1071,7 @@ PL.eject = function()
  */
 PL.callback_endTrack = function()
 {
-	PL.nextTrack();
+    PL.nextTrack();
 }
 
 //------------------------------------------------------------------------//
@@ -1086,10 +1086,10 @@ PL.callback_endTrack = function()
  */
 PL.nextTrack = function()
 {
-	if (this.elmCurrentTrack)
-	{
-		this.playTrack(this.elmCurrentTrack.nextSibling);
-	}
+    if (this.elmCurrentTrack)
+    {
+        this.playTrack(this.elmCurrentTrack.nextSibling);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1109,45 +1109,45 @@ PL.nextTrack = function()
  */
 PL.playTrack = function(elmTrack)
 {
-	// destroy current sound object
-	if (this.currentTrack)
-	{
-		this.currentTrack.destruct();
-		this.currentTrack = null;
-	}
-	
-	// set current track
-	this.elmCurrentTrack = elmTrack;
-	
-	if (elmTrack)
-	{
-		// show pause button
-		this.getElementById("play").className = "pause";
-		
-		// turn off preview mode
-		this.bolPreview = false;
-		
-		// turn off pause mode
-		this.bolPause	= false;
-		
-		// update player display
-		this.setInnerText(this.getElementById("playerTrack"), elmTrack.innerHTML);
-		
-		// start playing track
-		var strTrack = elmTrack.getAttribute('data-id');
-		SC.stream("/tracks/" + strTrack, {
-				autoPlay: true,
-				onfinish: this.callback_endTrack
-			}, this.callback_trackReady);
-	}
-	else
-	{
-		// pause if we don't have a track to play
-		this.pauseTrack();
-		
-		// update player display
-		this.getElementById("playerTrack").innerHTML = "";
-	}
+    // destroy current sound object
+    if (this.currentTrack)
+    {
+        this.currentTrack.destruct();
+        this.currentTrack = null;
+    }
+    
+    // set current track
+    this.elmCurrentTrack = elmTrack;
+    
+    if (elmTrack)
+    {
+        // show pause button
+        this.getElementById("play").className = "pause";
+        
+        // turn off preview mode
+        this.bolPreview = false;
+        
+        // turn off pause mode
+        this.bolPause   = false;
+        
+        // update player display
+        this.setInnerText(this.getElementById("playerTrack"), elmTrack.innerHTML);
+        
+        // start playing track
+        var strTrack = elmTrack.getAttribute('data-id');
+        SC.stream("/tracks/" + strTrack, {
+                autoPlay: true,
+                onfinish: this.callback_endTrack
+            }, this.callback_trackReady);
+    }
+    else
+    {
+        // pause if we don't have a track to play
+        this.pauseTrack();
+        
+        // update player display
+        this.getElementById("playerTrack").innerHTML = "";
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1162,17 +1162,17 @@ PL.playTrack = function(elmTrack)
  */
 PL.pauseTrack = function()
 {
-	// turn on pause mode
-	this.bolPause = true;
-	
-	// show play button
-	this.getElementById("play").className = "play";
-	
-	// pause current track
-	if (this.currentTrack)
-	{
-		this.currentTrack.pause();
-	}
+    // turn on pause mode
+    this.bolPause = true;
+    
+    // show play button
+    this.getElementById("play").className = "play";
+    
+    // pause current track
+    if (this.currentTrack)
+    {
+        this.currentTrack.pause();
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1189,20 +1189,20 @@ PL.pauseTrack = function()
  */
 PL.resumeTrack = function()
 {
-	// destroy any current preview
-	this.destroyPreview();
-	
-	// turn off pause mode
-	this.bolPause = false;
-	
-	// show pause button
-	this.getElementById("play").className = "pause";
-	
-	// play track
-	if (this.currentTrack)
-	{
-		this.currentTrack.resume();
-	}
+    // destroy any current preview
+    this.destroyPreview();
+    
+    // turn off pause mode
+    this.bolPause = false;
+    
+    // show pause button
+    this.getElementById("play").className = "pause";
+    
+    // play track
+    if (this.currentTrack)
+    {
+        this.currentTrack.resume();
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1232,31 +1232,31 @@ PL.resumeTrack = function()
  */
 PL.callback_trackReady = function(objSound)
 {
-	// destroy any current track
-	if (PL.currentTrack)
-	{
-		PL.currentTrack.destruct();
-	}
-	
-	// set new current track
-	PL.currentTrack = objSound;
-	
-	if (PL.bolPreview)
-	{
-		// pause if we are in preview mode
-		objSound.pause();
-	}
-	else
-	{
-		// destroy any current preview
-		PL.destroyPreview();
-		
-		// pause if we are in pause mode
-		if (PL.bolPause)
-		{
-			objSound.pause();
-		}
-	}
+    // destroy any current track
+    if (PL.currentTrack)
+    {
+        PL.currentTrack.destruct();
+    }
+    
+    // set new current track
+    PL.currentTrack = objSound;
+    
+    if (PL.bolPreview)
+    {
+        // pause if we are in preview mode
+        objSound.pause();
+    }
+    else
+    {
+        // destroy any current preview
+        PL.destroyPreview();
+        
+        // pause if we are in pause mode
+        if (PL.bolPause)
+        {
+            objSound.pause();
+        }
+    }
 }
 
 
@@ -1283,37 +1283,37 @@ PL.callback_trackReady = function(objSound)
  */
 PL.startPreview = function()
 {
-	// stop current preview
-	if (this.bolPreview)
-	{
-		this.stopPreview();
-		return;
-	}
-	
-	var elmSearch = this.getSelected("search");
-	if (elmSearch)
-	{
-		// get preview id
-		var strTrack = elmSearch.getAttribute('data-id');
-	
-		// pause current track
-		if (this.currentTrack)
-		{
-			this.currentTrack.pause();
-		}
-		
-		// destroy current preview
-		this.destroyPreview();
-		
-		// turn on preview mode
-		this.bolPreview = true;
-		
-		// start preview
-		SC.stream("/tracks/" + strTrack, {
-			autoPlay: true,
-			onfinish: this.callback_endPreview
-			}, this.callback_previewReady);
-	}
+    // stop current preview
+    if (this.bolPreview)
+    {
+        this.stopPreview();
+        return;
+    }
+    
+    var elmSearch = this.getSelected("search");
+    if (elmSearch)
+    {
+        // get preview id
+        var strTrack = elmSearch.getAttribute('data-id');
+    
+        // pause current track
+        if (this.currentTrack)
+        {
+            this.currentTrack.pause();
+        }
+        
+        // destroy current preview
+        this.destroyPreview();
+        
+        // turn on preview mode
+        this.bolPreview = true;
+        
+        // start preview
+        SC.stream("/tracks/" + strTrack, {
+            autoPlay: true,
+            onfinish: this.callback_endPreview
+            }, this.callback_previewReady);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1330,14 +1330,14 @@ PL.startPreview = function()
  */
 PL.stopPreview = function()
 {
-	// destroy preview
-	this.destroyPreview();
-	
-	// play current track
-	if (this.currentTrack && !this.bolPause)
-	{
-		this.currentTrack.resume();
-	}
+    // destroy preview
+    this.destroyPreview();
+    
+    // play current track
+    if (this.currentTrack && !this.bolPause)
+    {
+        this.currentTrack.resume();
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1354,12 +1354,12 @@ PL.stopPreview = function()
  */
 PL.destroyPreview = function()
 {
-	this.bolPreview = false;
-	if (this.previewTrack)
-	{
-		this.previewTrack.destruct();
-		this.previewTrack = null;
-	}
+    this.bolPreview = false;
+    if (this.previewTrack)
+    {
+        this.previewTrack.destruct();
+        this.previewTrack = null;
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1376,7 +1376,7 @@ PL.destroyPreview = function()
  */
 PL.callback_endPreview = function()
 {
-	PL.stopPreview();
+    PL.stopPreview();
 }
 
 //------------------------------------------------------------------------//
@@ -1401,23 +1401,23 @@ PL.callback_endPreview = function()
  */
 PL.callback_previewReady = function(objSound)
 {
-	// destroy existing preview
-	if (PL.previewTrack)
-	{
-		PL.previewTrack.destruct();
-	}
-	
-	// check for preview mode
-	if (PL.bolPreview)
-	{
-		// set new preview
-		PL.previewTrack = objSound;
-	}
-	else
-	{
-		// destroy preview if we are not in preview mode
-		objSound.destruct();
-	}
+    // destroy existing preview
+    if (PL.previewTrack)
+    {
+        PL.previewTrack.destruct();
+    }
+    
+    // check for preview mode
+    if (PL.bolPreview)
+    {
+        // set new preview
+        PL.previewTrack = objSound;
+    }
+    else
+    {
+        // destroy preview if we are not in preview mode
+        objSound.destruct();
+    }
 }
 
 
@@ -1460,21 +1460,21 @@ PL.callback_previewReady = function(objSound)
  */
 PL.do = function(arrCommand)
 {
-	var elmPlaylist = this.getSelected("edit");
-	if (elmPlaylist)
-	{
-		// clear redo stack
-		elmPlaylist.arrRedo = [];
-		
-		// add command to undo stack
-		elmPlaylist.arrUndo.push(arrCommand);
-		
-		// limit undo stack length to 100
-		if (elmPlaylist.arrUndo.length > 100)
-		{
-			elmPlaylist.arrUndo.shift();
-		}
-	}
+    var elmPlaylist = this.getSelected("edit");
+    if (elmPlaylist)
+    {
+        // clear redo stack
+        elmPlaylist.arrRedo = [];
+        
+        // add command to undo stack
+        elmPlaylist.arrUndo.push(arrCommand);
+        
+        // limit undo stack length to 100
+        if (elmPlaylist.arrUndo.length > 100)
+        {
+            elmPlaylist.arrUndo.shift();
+        }
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1491,18 +1491,18 @@ PL.do = function(arrCommand)
  */
 PL.undo = function()
 {
-	var elmPlaylist = this.getSelected("edit");
-	if (elmPlaylist && elmPlaylist.arrUndo.length > 0)
-	{
-		// get undo object
-		var arrCommand = elmPlaylist.arrUndo.pop();
-		
-		// run command
-		this.runCommand(arrCommand[1], arrCommand);
-		
-		// push redo object
-		elmPlaylist.arrRedo.push(arrCommand);
-	}
+    var elmPlaylist = this.getSelected("edit");
+    if (elmPlaylist && elmPlaylist.arrUndo.length > 0)
+    {
+        // get undo object
+        var arrCommand = elmPlaylist.arrUndo.pop();
+        
+        // run command
+        this.runCommand(arrCommand[1], arrCommand);
+        
+        // push redo object
+        elmPlaylist.arrRedo.push(arrCommand);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1519,18 +1519,18 @@ PL.undo = function()
  */
 PL.redo = function()
 {
-	var elmPlaylist = this.getSelected("edit");
-	if (elmPlaylist && elmPlaylist.arrRedo.length > 0)
-	{
-		// get redo object
-		var arrCommand = elmPlaylist.arrRedo.pop();
-		
-		// run command
-		this.runCommand(arrCommand[0], arrCommand);
-		
-		// push undo object
-		elmPlaylist.arrUndo.push(arrCommand);
-	}
+    var elmPlaylist = this.getSelected("edit");
+    if (elmPlaylist && elmPlaylist.arrRedo.length > 0)
+    {
+        // get redo object
+        var arrCommand = elmPlaylist.arrRedo.pop();
+        
+        // run command
+        this.runCommand(arrCommand[0], arrCommand);
+        
+        // push undo object
+        elmPlaylist.arrUndo.push(arrCommand);
+    }
 }
 
 //------------------------------------------------------------------------//
@@ -1557,40 +1557,40 @@ PL.redo = function()
  */
 PL.runCommand = function(strCommand, arrCommand)
 {
-	var elmTracklist = this.getSelected("edit").elmTracklist;
-	switch (strCommand)
-	{
-		case "add":
-			elmTracklist.insertBefore(arrCommand[2], arrCommand[3]);
-			this.select(arrCommand[2], "track");
-			break;
-		case "remove":
-			this.deselect(arrCommand[2]);
-			if (arrCommand[2].nextSibling)
-			{
-				this.select(arrCommand[2].nextSibling, "track");
-			}
-			else if (arrCommand[2].previousSibling)
-			{
-				this.select(arrCommand[2].previousSibling, "track");
-			}
-			elmTracklist.removeChild(arrCommand[2]);
-			break;
-		case "up":
-			elmTracklist.insertBefore(arrCommand[2], arrCommand[2].previousSibling);
-			this.select(arrCommand[2], "track");
-			break;
-		case "down":
-			var elmAfter = arrCommand[2].nextSibling;
-			if (elmAfter)
-			{
-				elmTracklist.insertBefore(arrCommand[2], elmAfter.nextSibling);
-			}
-			else
-			{
-				elmTracklist.appendChild(arrCommand[2]);
-			}
-			this.select(arrCommand[2], "track");
-			break;
-	}
+    var elmTracklist = this.getSelected("edit").elmTracklist;
+    switch (strCommand)
+    {
+        case "add":
+            elmTracklist.insertBefore(arrCommand[2], arrCommand[3]);
+            this.select(arrCommand[2], "track");
+            break;
+        case "remove":
+            this.deselect(arrCommand[2]);
+            if (arrCommand[2].nextSibling)
+            {
+                this.select(arrCommand[2].nextSibling, "track");
+            }
+            else if (arrCommand[2].previousSibling)
+            {
+                this.select(arrCommand[2].previousSibling, "track");
+            }
+            elmTracklist.removeChild(arrCommand[2]);
+            break;
+        case "up":
+            elmTracklist.insertBefore(arrCommand[2], arrCommand[2].previousSibling);
+            this.select(arrCommand[2], "track");
+            break;
+        case "down":
+            var elmAfter = arrCommand[2].nextSibling;
+            if (elmAfter)
+            {
+                elmTracklist.insertBefore(arrCommand[2], elmAfter.nextSibling);
+            }
+            else
+            {
+                elmTracklist.appendChild(arrCommand[2]);
+            }
+            this.select(arrCommand[2], "track");
+            break;
+    }
 }
