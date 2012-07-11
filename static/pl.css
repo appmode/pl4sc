@@ -1,0 +1,484 @@
+body,
+html
+{
+    margin                      : 0;
+    width                       : 100%;
+    height                      : 100%;
+    overflow                    : hidden;
+    font-family                 : Verdana, Geneva, sans-serif;
+}
+
+a:link,
+a:visited,
+a:active
+{
+    color                       : #ffffff;
+    text-decoration             : none;
+}
+
+ul
+{
+    list-style-type             : none;
+    padding-left                : 5px;
+    padding-right               : 5px;
+}
+
+li
+{
+    background-color            : #f2f2f2;
+    border-bottom               : 1px solid white;
+    padding-left                : 3px;
+    padding-right               : 3px;
+    cursor                      : pointer;
+}
+
+li:hover
+{
+    background-color            : #e2e2e2;
+}
+
+li.selected
+{
+    background-color            : #b2ffb2;
+}
+
+h1
+{
+    text-align                  : center;
+    font-size                   : 1.5em;
+}
+
+h2
+{
+    text-align                  : center;
+    font-size                   : 1em;
+    font-weight                 : normal;
+}
+
+#view
+{
+    position                    : absolute;
+    width                       : 200%;
+    top                         : 0px;
+    bottom                      : 0px;
+    transition                  : left 1s;
+    -o-transition               : left 1s;
+    -ms-transition              : left 1s;
+    -moz-transition             : left 1s;
+    -webkit-transition          : left 1s;
+}
+
+#view.search
+{
+    left                        : 0%;
+}
+
+#view.edit
+{
+    left                        : -50%;
+}
+
+#view.play
+{
+    left                        : -100%;
+}
+
+#view > div
+{
+    position                    : relative;
+    float                       : left;
+    height                      : 100%;
+    width                       : 25%;
+}
+
+.header
+{
+    position                    : absolute;
+    top                         : 0px;
+    left                        : 1px;
+    right                       : 1px;
+    height                      : 50px;
+    background-color            : black;
+}
+
+.header > p
+{
+    text-align                  : center;
+    color                       : white;
+}
+
+.header .btn
+{
+    position                    : absolute;
+    height                      : 50px;
+    width                       : 50px;
+    background-position         : center center;
+    background-repeat           : no-repeat;
+    cursor                      : pointer;
+}
+
+.header .btnLeft
+{
+    left                        : 5px;
+    top                         : 0px;
+}
+
+.header .btnLeft + .btnLeft
+{
+    left                        : 60px;
+}
+
+.header .btnRight
+{
+    right                       : 5px;
+    top                         : 0px;
+}
+
+.header .btnRight + .btnRight
+{
+    right                       : 60px;
+}
+
+.footer
+{
+    position                    : absolute;
+    bottom                      : 0px;
+    left                        : 1px;
+    right                       : 1px;
+    height                      : 50px;
+    background-color            : black;
+}
+
+.footer > p
+{
+    font-size                   : 0.5em;
+    text-align                  : center;
+    color                       : white;
+}
+
+.footer .btn
+{
+    position                    : absolute;
+    height                      : 50px;
+    width                       : 50px;
+    background-position         : center center;
+    background-repeat           : no-repeat;
+    cursor                      : pointer;
+    transition                  : opacity 1s;
+    -o-transition               : opacity 1s;
+    -ms-transition              : opacity 1s;
+    -moz-transition             : opacity 1s;
+    -webkit-transition          : opacity 1s;
+}
+
+.footer .btnCenter
+{
+    left                        : 50%;
+    margin-left                 : -25px;
+}
+
+.footer .btnLeft
+{
+    left                        : 5px;
+    top                         : 0px;
+}
+
+.footer .btnLeft + .btnLeft
+{
+    left                        : 60px;
+}
+
+.footer .btnRight
+{
+    right                       : 5px;
+    top                         : 0px;
+}
+
+.footer .btnRight + .btnRight
+{
+    right                       : 60px;
+}
+
+.btnAdd
+{
+    background-image            : url(image/plus.png);
+}
+
+.btnSearch
+{
+    background-image            : url(image/search.png);
+}
+
+#view.search .btnSearch
+{
+    opacity                     : 0;
+    visibility                  : hidden;
+    transition                  : opacity 1s, visibility 1s;
+    -o-transition               : opacity 1s, visibility 1s;
+    -ms-transition              : opacity 1s, visibility 1s;
+    -moz-transition             : opacity 1s, visibility 1s;
+    -webkit-transition          : opacity 1s, visibility 1s;
+}
+
+.btnUndo
+{
+    background-image            : url(image/undo.png);
+}
+
+.btnRedo
+{
+    background-image            : url(image/redo.png);
+}
+
+.btnEdit
+{
+    background-image            : url(image/edit.png);
+}
+
+#view.edit .btnEdit
+{
+    opacity                     : 0;
+    visibility                  : hidden;
+    transition                  : opacity 1s, visibility 1s;
+    -o-transition               : opacity 1s, visibility 1s;
+    -ms-transition              : opacity 1s, visibility 1s;
+    -moz-transition             : opacity 1s, visibility 1s;
+    -webkit-transition          : opacity 1s, visibility 1s;
+}
+
+#view.play .tracks .btnEdit
+{
+    opacity                     : 0;
+    visibility                  : hidden;
+    transition                  : opacity 1s, visibility 1s;
+    -o-transition               : opacity 1s, visibility 1s;
+    -ms-transition              : opacity 1s, visibility 1s;
+    -moz-transition             : opacity 1s, visibility 1s;
+    -webkit-transition          : opacity 1s, visibility 1s;
+}
+
+#view.search .playlists .btnEdit
+{
+    opacity                     : 0;
+    visibility                  : hidden;
+    transition                  : opacity 1s, visibility 1s;
+    -o-transition               : opacity 1s, visibility 1s;
+    -ms-transition              : opacity 1s, visibility 1s;
+    -moz-transition             : opacity 1s, visibility 1s;
+    -webkit-transition          : opacity 1s, visibility 1s;
+}
+
+.btnPreview
+{
+    background-image            : url(image/preview.png);
+}
+
+.btnNew
+{
+    background-image            : url(image/new.png);
+}
+
+#view.play .btnNew
+{
+    opacity                     : 0;
+    visibility                  : hidden;
+    transition                  : opacity 1s, visibility 1s;
+    -o-transition               : opacity 1s, visibility 1s;
+    -ms-transition              : opacity 1s, visibility 1s;
+    -moz-transition             : opacity 1s, visibility 1s;
+    -webkit-transition          : opacity 1s, visibility 1s;
+}
+
+.btnPlay
+{
+    background-image            : url(image/play.png);
+}
+
+#view.play .btnPlay
+{
+    opacity                     : 0;
+    visibility                  : hidden;
+    transition                  : opacity 1s, visibility 1s;
+    -o-transition               : opacity 1s, visibility 1s;
+    -ms-transition              : opacity 1s, visibility 1s;
+    -moz-transition             : opacity 1s, visibility 1s;
+    -webkit-transition          : opacity 1s, visibility 1s;
+}
+
+.btnEject
+{
+    background-image            : url(image/eject.png);
+}
+
+.btnCloud
+{
+    background-image            : url(image/cloud.png);
+}
+
+.btnUp
+{
+    background-image            : url(image/up.png);
+}
+
+.btnDown
+{
+    background-image            : url(image/down.png);
+}
+
+.btnSave
+{
+    background-image            : url(image/save.png);
+}
+
+#view.play .playlists .btnSave
+{
+    opacity                     : 0;
+    visibility                  : hidden;
+    transition                  : opacity 1s, visibility 1s;
+    -o-transition               : opacity 1s, visibility 1s;
+    -ms-transition              : opacity 1s, visibility 1s;
+    -moz-transition             : opacity 1s, visibility 1s;
+    -webkit-transition          : opacity 1s, visibility 1s;
+}
+
+.btnTrash
+{
+    background-image            : url(image/trash.png);
+}
+
+#view.play .playlists .btnTrash
+{
+    opacity                     : 0;
+    visibility                  : hidden;
+    transition                  : opacity 1s, visibility 1s;
+    -o-transition               : opacity 1s, visibility 1s;
+    -ms-transition              : opacity 1s, visibility 1s;
+    -moz-transition             : opacity 1s, visibility 1s;
+    -webkit-transition          : opacity 1s, visibility 1s;
+}
+
+.btnClear
+{
+    background-image            : url(image/clear.png);
+}
+
+.btnRemove
+{
+    background-image            : url(image/minus.png);
+}
+
+.content
+{
+    overflow                    : auto;
+    position                    : absolute;
+    top                         : 50px;
+    bottom                      : 50px;
+    left                        : 1px;
+    right                       : 1px;
+    border-left                 : 1px dashed #c5c5c5;
+    border-right                : 1px dashed #c5c5c5;
+}
+
+.content p
+{
+    font-size                   : 0.8em;
+    text-align                  : center;
+    margin-top                  : 0.2em;
+    margin-bottom               : 0.2em;
+}
+
+.content .heading
+{
+    background-color            : #c5c5c5;
+    width                       : 98%;
+    border                      : 1px solid #c5c5c5;
+    margin-left                 : auto;
+    margin-right                : auto;
+}
+
+.content .input
+{
+    position                    : relative;
+    overflow                    : hidden;
+    height                      : 26px;
+    line-height                 : 26px;
+    width                       : 98%;
+    border                      : 1px solid #555555;
+    margin-left                 : auto;
+    margin-right                : auto;
+    margin-top                  : 3px;
+    color                       : #dddddd;
+    border-radius               : 3px;
+    -moz-border-radius          : 3px;
+    -webkit-border-radius       : 3px;
+}
+
+.content .textarea
+{
+    position                    : relative;
+    overflow                    : hidden;
+    height                      : 70px;
+    line-height                 : 70px;
+    width                       : 98%;
+    border                      : 1px solid #555555;
+    margin-left                 : auto;
+    margin-right                : auto;
+    margin-top                  : 3px;
+    color                       : #dddddd;
+    border-radius               : 3px;
+    -moz-border-radius          : 3px;
+    -webkit-border-radius       : 3px;
+}
+
+.input input,
+.textarea textarea
+{
+    position                    : absolute;
+    width                       : 100%;
+    height                      : 100%;
+    border                      : none;
+    font-family                 : Verdana, Geneva, sans-serif;
+    font-size                   : 1em;
+    padding-left                : 0.2em;
+    padding-right               : 0.2em;
+    background-color            : transparent;
+}
+
+.searchButton
+{
+    position                    : absolute;
+    width                       : 26px;
+    height                      : 26px;
+    top                         : 0px;
+    right                       : 0px;
+    cursor                      : pointer;
+    background-position         : center center;
+    background-repeat           : no-repeat;
+    background-image            : url(image/search_black.png);
+}
+
+#play
+{
+    position                    : absolute;
+    left                        : 50%;
+    margin-left                 : -80px;
+    top                         : 50%;
+    margin-top                  : -80px;
+    width                       : 160px;
+    height                      : 160px;
+    border                      : 5px solid black;
+    cursor                      : pointer;
+    border-radius               : 30px;
+    -moz-border-radius          : 30px;
+    -webkit-border-radius       : 30px;
+}
+
+#play.play
+{
+    background-image            : url(image/play_large.png);
+}
+
+#play.pause
+{
+    background-image            : url(image/pause_large.png);
+}
