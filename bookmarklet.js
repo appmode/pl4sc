@@ -1,3 +1,3 @@
 
 
-javascript:window.open("http://INSERT_URL_HERE/crate.html?track=" + document.querySelector('div.player').getAttribute('data-sc-track'));
+javascript:window.open("http://pl4sc.appmo.de//crate.html?track=" + document.querySelector('div.player').getAttribute('data-sc-track'));
